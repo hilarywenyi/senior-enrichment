@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 /*  Campuses, a sub-reducer to manage campuses in Redux store */
 
@@ -28,7 +28,6 @@ export const addCampus = newCampus => {
         type: ADD_CAMPUS,
         newCampus
     }
-
 }
 
 export const deleteCampus = id => {
@@ -56,10 +55,10 @@ export const thunkFetchCampuses = () => {
 }
 
 //GET a single campus:
-export const thunkFetchCampus = () => {
+export const thunkFetchCampus = (id) => {
     return async (dispatch) => {
         try {
-            const res = await axios.get('/api/campuses/:campusId');
+            const res = await axios.get(`/api/campuses/${id}`);
             const campus = res.data;
             const action = getCampus(campus);
             console.log('fetchCampuses thunk one campus = ', campus)
@@ -69,36 +68,6 @@ export const thunkFetchCampus = () => {
         }  
     }
 }
-
-//ADD a campus:
-
-export const thunkAddCampus = newCampus => {
-    return async dispatch => {
-        try {
-            console.log("Thunk add newCampus", newCampus);
-            const { data } = await axios.post("/api/campuses/", newCampus);
-            const action = addCampus(data);
-            dispatch(action);
-        } catch (error) {
-            console.log("thunkAddCampus went wrong", error)
-        }
-    }
-}
-
-// export const thunkAddCampus = (history, campusData) => {
-//     return async dispatch => {
-//         try {
-//          //now backend ready to post(adding)
-//          const res = await axios.post('/api/campuses', campusData);
-//          const newCampus = res.data;
-//          const action = addCampus(newCampus);
-//          dispatch(action);
-//          history.push(`/campuses/${newCampus.id}`)
-//         } catch (error) {
-//             console.log('thunk addingCampus went wrong', error)
-//         }
-//     }
-// }
 
 //DELETE a campus:
 export const thunkDeleteCampus = (id) => {
@@ -119,17 +88,17 @@ const initialState = []
 export default function campusReducer (state = initialState, action){   
     switch (action.type){
       case GET_CAMPUSES: 
-        console.log("action.campuses in reducer = ", action.campuses);
         return action.campuses;
       
       case GET_CAMPUS: 
+        console.log("action.campus in reducer = ", action.campus);
         return [...state, action.campus];        
       
       case ADD_CAMPUS:
         return [...state, action.newCampus];      
       
       case DELETE_CAMPUS:
-        return state.filter(element => element.id !== action.id) ; 
+        return state.filter(element => element.id !== action.id); 
 
       default:
         return state

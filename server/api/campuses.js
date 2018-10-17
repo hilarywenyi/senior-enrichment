@@ -8,24 +8,26 @@ module.exports = router;
 //GET /api/campuses
 router.get('/', async (req, res, next) => {
   try {
-    const campuses = await Campus.findAll({include: [Student]});
+    const campuses = await Campus.findAll({include: [Student] });
     res.json(campuses);
   } catch (error){
     next(error)
   }
 });
+//[Student]
+//[{model: Student, include: [{all: true}]}]
 
 //GET /api/campuses/:campusId 
 router.get('/:campusId', async (req, res, next) => {
     try {
-      const campus = await Campus.findById(req.params.campusId, {
-        include: [Student]
-      });
-      res.json(campus)
+      const campus = await Campus.findById(req.params.campusId, {include: [Student]});
+      //res.json(campus)
+      res.send(campus)
     } catch (error) {
        next(error)
     }
 });
+
 
 //POST(adding) /api/campuses
 router.post('/campuses', async(req, res, next) => {

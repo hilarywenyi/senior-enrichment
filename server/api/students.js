@@ -14,11 +14,13 @@ router.get('/', async (req, res, next)=> {
   }
 });
 
-//GET /api/students/:studentId
+//GET /api/students/:studentId && notice: a single student include student's Campus
 router.get('/:studentId', async (req, res, next) => {
     try {
-      const student = await Student.findById(req.params.studentId);
-      res.json(student);
+      const student = await Student.findById(req.params.studentId, {
+        include: [ Campus ]
+      });
+      res.send(student);
     } catch (error) {
        next(error)
     }

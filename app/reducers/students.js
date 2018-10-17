@@ -65,23 +65,6 @@ export const thunkFetchStudent = () => {
     }
 }
 
-//Add a student: need to fix this part
-export const thunkAddStudent = (history, studentData) => {
-    return async dispatch => {
-        try {
-         const { campusId } = studentData;   
-         //now backend ready to post(adding) and double check api route
-         const res = await axios.post(`/api/campuses/${campusId}/new-student`, studentData);
-         const newStudent = res.data;
-         const action = getStudent(newStudent);
-         dispatch(action);
-         history.push(`/campuses/${campusId}`)
-        } catch (error) {
-            console.log('thunk addingCampus went wrong', error)
-        }
-    }
-}
-
 //DELETE a student
 export const thunkDeleteStudent = (id) => {
     return async dispatch => {

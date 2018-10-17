@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import { Link } from "react-router-dom" 
 import { connect } from "react-redux" 
 
@@ -6,13 +6,13 @@ import { connect } from "react-redux"
 //import from reducer 
 import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
 
- class Campuses extends React.Component {
+ class Campuses extends Component {
      componentDidMount(){
-         this.props.fetchInitialCampus()
+         this.props.fetchAllCampuses()
      }
 
      render() {      
-             const { campuses } = this.props
+             const { campuses } = this.props //campuses here is a campusesList 
              console.log("this props means campus", this.props)
              return ( 
                 <div className = "home">
@@ -29,15 +29,15 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
                                 <Link to ={`/campuses/${campus.id}`}>{campus.name}</Link> 
                                 {/* <button 
                                     type = "submit"
-                                    onClick = {() => this.props.deleteCampus(campus.id)}>BUTTON SPACE</button>  */}
+                                    onClick = {() => this.props.deleteCampus(campus.id)}>Delete Campus</button>  */}
                                 </li>          
                                 )) : 'no Campus'
                             }
                         </ul>
                    </div>
-                   {/* <div className = "button-container">
-                     <button className = "button-main" onClick = {navigateToNewCamps}> Add New Camps </button>
-                   </div> */}
+                {/*     <div className = "button-container">
+                      <button className = "button-main" onClick = {navigateToNewCampus}> Add New Campus </button>
+                    </div> */}
                 </div>
              )
     }
@@ -46,14 +46,14 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
 const mapStateToProps = function(state) {
     console.log("MAP STATE STAT" , state.campuses)
     return {
-        campuses: state.campuses,
+        campuses: state.campuses, //campusesList: state.campuses
         students: state.students
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchInitialCampus: () => dispatch(thunkFetchCampuses()),
+        fetchAllCampuses: () => dispatch(thunkFetchCampuses()),
         deleteCampus: id => dispatch(thunkDeleteCampus(id))
     }
 };
