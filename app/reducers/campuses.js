@@ -19,14 +19,14 @@ export const getCampuses = campuses => {
 export const getCampus = campus => {
     return {
         type: GET_CAMPUS,
-        payload: campus
+        campus
     }
 }
 
 export const addCampus = newCampus => {
     return {
         type: ADD_CAMPUS,
-        payload: newCampus
+        newCampus
     }
 
 }
@@ -34,7 +34,7 @@ export const addCampus = newCampus => {
 export const deleteCampus = id => {
     return {
         type: DELETE_CAMPUS,
-        payload: id
+        id
     }
 }
 
@@ -74,7 +74,7 @@ export const thunkFetchCampus = () => {
 
 export const thunkAddCampus = newCampus => {
     return async dispatch => {
-        try{
+        try {
             console.log("Thunk add newCampus", newCampus);
             const { data } = await axios.post("/api/campuses/", newCampus);
             const action = addCampus(data);
@@ -123,13 +123,13 @@ export default function campusReducer (state = initialState, action){
         return action.campuses;
       
       case GET_CAMPUS: 
-        return [...state, action.payload];        
+        return [...state, action.campus];        
       
       case ADD_CAMPUS:
-        return [...state, action.payload];      
+        return [...state, action.newCampus];      
       
       case DELETE_CAMPUS:
-        return state.filter(element => element.id !== action.payload) ; 
+        return state.filter(element => element.id !== action.id) ; 
 
       default:
         return state

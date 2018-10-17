@@ -13,8 +13,7 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
 
      render() {      
              const { campuses } = this.props
-             console.log("this props campus", this.props)
-             //const { GD } = this.props
+             console.log("this props means campus", this.props)
              return ( 
                 <div className = "home">
                     <div className = "campuses-container">

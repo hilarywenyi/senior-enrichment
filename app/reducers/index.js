@@ -5,7 +5,7 @@ import students from './students'
 
 const rootReducer = combineReducers({
    campuses, // campuses : []
-   students
+   students 
 });
 
 export default rootReducer;

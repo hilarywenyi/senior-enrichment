@@ -24,14 +24,14 @@ export const getStudent = (student) => {
 export const addStudent = newStudent => {
     return {
         type: ADD_STUDENT,
-        payload: newStudent
+        newStudent
     }
 }
 
 export const deleteStudent = id => {
     return {
         type: DELETE_STUDENT,
-        payload: id
+        id
     }
 }
 
@@ -39,10 +39,14 @@ export const deleteStudent = id => {
 //Get students
 export const thunkFetchStudents = () => {
     return async (dispatch) => {
+        try {
         const res = await axios.get('/api/students');
         const students = res.data;
         const action = getStudents(students);
         dispatch(action);
+        } catch (error) {
+            console.log('fetchStudents went wrong', error)
+        }
     }
 }
 
@@ -61,7 +65,7 @@ export const thunkFetchStudent = () => {
     }
 }
 
-//Add a student:
+//Add a student: need to fix this part
 export const thunkAddStudent = (history, studentData) => {
     return async dispatch => {
         try {
@@ -93,22 +97,22 @@ export const thunkDeleteStudent = (id) => {
 }
 
 //reducer
-const initialState = {students: []};
+const initialState = [];
 export default function studentReducer (state = initialState, action){
 
     switch (action.type){
       case GET_STUDENTS: 
         console.log("action.students in reducer = ", action.students)
-        return action.payload;
+        return action.students;
 
       case GET_STUDENT: 
-        return [...state,action.payload];
+        return [...state,action.student];
       
       case ADD_STUDENT:
-       return [...state,action.payload];
+       return [...state,action.newStudent];
       
       case DELETE_STUDENT:
-       return state.filter(element => element.id !== action.payload) ; 
+       return state.filter(element => element.id !== action.id) ; 
              
       default:
         return state
