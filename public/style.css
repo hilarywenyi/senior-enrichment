@@ -15,7 +15,7 @@ body {
   margin: 0;
   width: 100vw;
 }
-
+/* 
 nav {
   align-items: center;
   background-color: #333333;
@@ -23,11 +23,52 @@ nav {
   display: flex;
   height: 80px;
   padding: 10px;
+} */
+.navbar-container {
+  display: flex;
+  justify-content: flex-end;
+  background-color:rgb(122, 121, 126);
+  height: 80px;
+  padding: 10px;
+}
+
+.nav-item {
+  padding: 1em;
+}
+
+a {
+  color: rgb(15, 8, 36);
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgb(144, 189, 238);
 }
 
 main {
   align-items: center;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.campuses-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button-container {
+  display: flex;
+  padding: 1em;
+  margin-bottom: 4em;
+  justify-content: center;
+}
+
+.campus {
+  display: flex;
+  padding: 1em;
+  margin: 1em;
   flex-direction: column;
   justify-content: center;
 }
