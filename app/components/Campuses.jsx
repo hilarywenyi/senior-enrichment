@@ -8,12 +8,13 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
 
  class Campuses extends Component {
      componentDidMount(){
+        //  console.log("COMPONENT DID MOUNT", this.props)
          this.props.fetchAllCampuses()
      }
 
      render() {      
              const { campuses } = this.props //campuses here is a campusesList 
-             console.log("this props means campus", this.props)
+             console.log("PROPS FROM COMPONENT DID MOUNT RENDER IN = ", this.props)
              return ( 
                 <div className = "home">
                     <div className = "campuses-container">
@@ -44,7 +45,7 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
  }
 
 const mapStateToProps = function(state) {
-    console.log("MAP STATE STAT" , state.campuses)
+    console.log("MAP STATE TO PROPS" , state.campuses)
     return {
         campuses: state.campuses, //campusesList: state.campuses
         students: state.students
@@ -52,6 +53,7 @@ const mapStateToProps = function(state) {
 };
 
 const mapDispatchToProps = dispatch => {
+    console.log("MAP DISPATCH TO PROPS", dispatch)
     return {
         fetchAllCampuses: () => dispatch(thunkFetchCampuses()),
         deleteCampus: id => dispatch(thunkDeleteCampus(id))

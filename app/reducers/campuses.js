@@ -54,7 +54,7 @@ export const thunkFetchCampuses = () => {
     }
 }
 
-//GET a single campus:
+//GET a single campus:(dispatch,getState) for postBook for update
 export const thunkFetchCampus = (id) => {
     return async (dispatch) => {
         try {
@@ -73,12 +73,12 @@ export const thunkFetchCampus = (id) => {
 export const thunkDeleteCampus = (id) => {
     return async dispatch => {
         try {
-          //now backend ready to delete
           await axios.delete(`/api/campuses/${id}`);
           const action = deleteCampus(id);
           dispatch(action);
         } catch (error) {
           console.log('removeCampus went wrong', error)
+          //toastr.error('Oops!Sorry our bad');
         }
     }
 }
@@ -92,10 +92,11 @@ export default function campusReducer (state = initialState, action){
       
       case GET_CAMPUS: 
         console.log("action.campus in reducer = ", action.campus);
-        return [...state, action.campus];        
+        return action.campus;        
       
       case ADD_CAMPUS:
-        return [...state, action.newCampus];      
+        return [...state, action.newCampus];   
+           
       
       case DELETE_CAMPUS:
         return state.filter(element => element.id !== action.id); 

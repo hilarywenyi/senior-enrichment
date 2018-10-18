@@ -14,20 +14,14 @@ class SingleCampus extends React.Component {
     }
 
     render() {
-        
-        const  { campus }  = this.props;
-
-
-        // const campus = this.props.campus;
-        // const students = this.props.campus.students;
-        //console.log("props in SingleCampus:", this.props);
-       //key = {campus.id} className = "campus-container"
-         
+        const  campus  = this.props.campus
+        //const  { campus }  = this.props;
+        console.log("CAMPUS NEED TO RENDER HERE", this.props)//ERROR!!!!!!!!      
          return campus
            ? (
               <div >
             <div className = "page-header">
-               <h1> Campus: {campus.name} </h1>
+               <h1> Campus: {this.props.campuses.name} </h1>
             </div>
 
             <div className = "row">
@@ -48,7 +42,7 @@ class SingleCampus extends React.Component {
                         <div className="page-header">
                             <h2>All Students in { campus.name } Campus
                                 <Link to="/students/newStudent">
-                                    <button type="button" className="btn btn-primary" style={styles}> Add Student</button>
+                                    <button type="button" className="btn btn-primary"> Add Student</button>
                                 </Link>
                             </h2>
                         </div>
@@ -58,7 +52,6 @@ class SingleCampus extends React.Component {
          ) 
          : <h1> Loading... </h1>   
     }
-
 
 }
 
