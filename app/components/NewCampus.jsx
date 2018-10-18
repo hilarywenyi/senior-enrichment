@@ -1,6 +1,19 @@
-import React from "react";
-import { connect } from "react-redux"
+//New Campus
+import React from 'react';
+import { thunkPostCampus } from '../reducers';
+import CampusForm from './CampusForm';
 
-import { thunkAddCampus } from '../reducers/campusEntry';
 
-//class NewCampus from 
+const NewCampus = (props) => {
+  console.log('prevState = ', props.prevState);
+  return (
+    <CampusForm
+      label={'Create a Campus'}
+      postOrPut={thunkPostCampus}
+      buttonText={'Create Campus'}
+      prevState={props.prevState}
+    />
+  )
+}
+
+export default NewCampus;

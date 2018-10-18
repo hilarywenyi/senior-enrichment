@@ -3,7 +3,7 @@ import axios from "axios";
 //action type
 const GET_STUDENTS = 'GET_STUDENTS';
 const GET_STUDENT = 'GET_STUDENT';
-const ADD_STUDENT = 'ADD_STUDENT';
+const EDIT_STUDENT = 'EDIT_STUDENT';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 
 //action creator
@@ -21,22 +21,22 @@ export const getStudent = (student) => {
     }
 }
 
-export const addStudent = newStudent => {
+export const editStudent = student => {
     return {
-        type: ADD_STUDENT,
-        newStudent
+        type: EDIT_STUDENT,
+        student
     }
 }
 
-export const deleteStudent = id => {
+export const deleteStudent = student => {
     return {
         type: DELETE_STUDENT,
-        id
+        student
     }
 }
 
 //Thunk creators
-//Get students
+//Get students OR single student
 export const thunkFetchStudents = () => {
     return async (dispatch) => {
         try {
@@ -50,20 +50,37 @@ export const thunkFetchStudents = () => {
     }
 }
 
-//Get single student
-// export const thunkFetchStudent = () => {
-//     return async (dispatch) => {
-//         try {
-//             const res = await axios.get('/api/students/:studentId');
-//             const student = res.data;
-//             const action = getStudent(student);
-//             console.log('fetch thunk one student = ', student)
-//             dispatch(action);
-//         } catch (error) {
-//             console.log('fetchCampuses went wrong', error)
-//         }  
-//     }
-// }
+//Post a studnet
+export function thunkPostStudent (prevState, studentData) {
+    const { campusId } = studentData
+    return async (dispatch) => {
+      try {
+        const res = await axios.post(`/api/campuses/${campusId}/new-student`) 
+        const newStudent = res.data;
+        const action = getStudent(newStudent);
+        dispatch(action);
+        prevState.push(`/campuses/${campusId}`); 
+      } catch (error) {
+          console.log(error)
+      }
+    }
+}
+
+
+export function thunkPutStudent (prevState, studentData, studentId) {
+
+    return async (dispatch) => {
+    try{
+        const res = await axios.put(`/api/students/${studentId}`, studentData)
+        const updatedStudent = res.data;
+        const action = editStudent(updatedStudent);
+        dispatch(action);
+        prevState.push(`/students/${updatedStudent.id}`);
+       } catch (error) {
+        console.log(error)
+       }   
+    }
+}
 
 //DELETE a student
 export const thunkDeleteStudent = (id) => {
@@ -91,11 +108,17 @@ export default function studentReducer (state = initialState, action){
       case GET_STUDENT: 
         return [...state,action.student];
       
-      case ADD_STUDENT:
-       return [...state,action.newStudent];
+      case EDIT_STUDENT: {
+        const studentToEdit = state.find(student => student.id === action.student.id);
+        const indexOfStudentToEdit = state.indexOf(studentToEdit);
+        let newState = [...state];
+        newState.splice(indexOfStudentToEdit, 1, action.student);
+        return newState;
+      }
+      // return [...state,action.newStudent];
       
       case DELETE_STUDENT:
-       return state.filter(element => element.id !== action.id) ; 
+       return state.filter(element => element.id !== action.id); 
              
       default:
         return state

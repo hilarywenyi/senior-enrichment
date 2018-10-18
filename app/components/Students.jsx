@@ -39,9 +39,7 @@ class Students extends React.Component {
                  
              </div>
          )
-     }
-      
-                 
+     }             
 }
 
 

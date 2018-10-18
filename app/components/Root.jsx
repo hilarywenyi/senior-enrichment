@@ -15,6 +15,9 @@ import SingleStudent from './SingleStudent';
 //import NewCampus from './NewCampus';
 //import NewStudent from './NewStudent';
 
+//import EditCampus from './EditCampus';
+//import EditStudent from './EditStudent';
+
 
 const Root = () => {
   return (
@@ -23,7 +26,6 @@ const Root = () => {
         <Navbar />
       </nav>
       <main>
-        {/* <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1> */}
         <Switch>
           <Route exact path = "/campuses" component = {Campuses} />
           <Route exact path = "/students" component = {Students} />
@@ -31,6 +33,9 @@ const Root = () => {
           <Route exact path = "/students/:studentId" component = {SingleStudent} />
           {/* <Route exact path = "/campuses/new-campus" component = {NewCampus} /> */}
           {/* <Route exact path = "/campuses/new-student" component = {NewStudent} /> */}
+          {/* <Route exact path = "/campuses/edit-campus" component = {EditCampus} /> */}
+          {/* <Route exact path = "/campuses/edit-student" component = {EditStudent} /> */}
+
           <Route component = {Home} />
           
         </Switch>

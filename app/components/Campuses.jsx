@@ -13,8 +13,8 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
      }
 
      render() {      
-             const { campuses, history } = this.props //campuses here is a campusesList 
-             const navigateToNewCampus = () => history.push(`/campuses/new-campus`);
+             const { campuses, prevState } = this.props //campuses is my campuseList here 
+             const navigateToNewCampus = () => prevState.push(`/campuses/new-campus`);
              console.log("PROPS FROM COMPONENT DID MOUNT RENDER IN = ", this.props)
              return ( 
                 <div className = "home">

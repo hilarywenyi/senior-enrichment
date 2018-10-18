@@ -23,17 +23,17 @@ export const getCampus = campus => {
     }
 }
 
-export const addCampus = newCampus => {
+export const editCampus = campus => {
     return {
-        type: ADD_CAMPUS,
-        newCampus
+        type: EDIT_CAMPUS,
+        campus
     }
 }
 
-export const deleteCampus = id => {
+export const deleteCampus = campus => {
     return {
         type: DELETE_CAMPUS,
-        id
+        campus
     }
 }
 
@@ -59,7 +59,7 @@ export function thunkPostCampus (history, campusData) {
 
     return async (dispatch) => {
       try {
-          const res = await axios.get('/api/campuses', campusData)
+          const res = await axios.post('/api/campuses', campusData)
           const newCampus = res.data;
           const action = getCampus(newCampus);
           dispatch(action);
@@ -86,12 +86,13 @@ export function thunkPutCampus (history, campusData, campusId) {
 }
 
 //DELETE a campus:
-export const thunkDeleteCampus = (id) => {
+export const thunkDeleteCampus = (prevState, campus) => {
     return async dispatch => {
         try {
-          await axios.delete(`/api/campuses/${id}`);
-          const action = deleteCampus(id);
+          await axios.delete(`/api/campuses/${campus.id}`, {id: campus.id});
+          const action = deleteCampus(campus);
           dispatch(action);
+          prevState.push(`/campuses`)
         } catch (error) {
           console.log('removeCampus went wrong', error)
           //toastr.error('Oops!Sorry our bad');
@@ -112,14 +113,19 @@ export default function campusReducer (state = initialState, action){
       
       case EDIT_CAMPUS: {
             const campusToEdit = state.find(campus => campus.id === action.campus.id);
-            const indexOfcampusToEdit = state.indexOf(campusToEdit);
+            const indexOfCampusToEdit = state.indexOf(campusToEdit);
             let newState = [...state];
-            newState.splice(indexOfcampusToEdit, 1, action.campus);
+            newState.splice(indexOfCampusToEdit, 1, action.campus);
             return newState;
       }
             
-      case DELETE_CAMPUS:
-        return state.filter(element => element.id !== action.id); 
+      case DELETE_CAMPUS: {
+        const campusToDelete = state.find(campus => campus.id === action.campusId);
+        const indexOfCampusToDelete = state.indexOf(campusToDelete);
+        let newState = [...state];
+        newState.splice(indexOfCampusToDelete, 1);
+        return newState; 
+      }
 
       default:
         return state

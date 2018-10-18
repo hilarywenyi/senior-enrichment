@@ -15,11 +15,11 @@ class SingleCampus extends React.Component {
     }
 
     render() {
-        const  { campus,history } = this.props
+        const  { campus,prevState } = this.props
         //BUGGGGGGGG HERE: WHERE IS MY CAMPUS
         //const  { campus }  = this.props;
-        const navigateToNewStudent = () => history.push(`/campuses/${campus.id}/new-student`);
-        //const navigateToEditCampus = () => history.push(`/campuses/${campus.id}/edit-campus`);
+        const navigateToNewStudent = () => prevState.push(`/campuses/${campus.id}/new-student`);
+        //const navigateToEditCampus = () => prevState.push(`/campuses/${campus.id}/edit-campus`);
         
         console.log("CAMPUS NEED TO RENDER HERE", this.props)//ERROR!!!!!!!!      
          return campus
@@ -42,7 +42,7 @@ class SingleCampus extends React.Component {
                 </div> 
             </div>
 
-            <Students campus={campus} history={history} />
+            <Students campus={campus} prevState={prevState} />
                 <div className="buttons-container">
                     <button className="btn-add-new-student" onClick={navigateToNewStudent}>Add New Student</button>
                     
