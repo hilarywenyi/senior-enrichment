@@ -51,19 +51,19 @@ export const thunkFetchStudents = () => {
 }
 
 //Get single student
-export const thunkFetchStudent = () => {
-    return async (dispatch) => {
-        try {
-            const res = await axios.get('/api/students/:studentId');
-            const student = res.data;
-            const action = getStudent(student);
-            console.log('fetch thunk one student = ', student)
-            dispatch(action);
-        } catch (error) {
-            console.log('fetchCampuses went wrong', error)
-        }  
-    }
-}
+// export const thunkFetchStudent = () => {
+//     return async (dispatch) => {
+//         try {
+//             const res = await axios.get('/api/students/:studentId');
+//             const student = res.data;
+//             const action = getStudent(student);
+//             console.log('fetch thunk one student = ', student)
+//             dispatch(action);
+//         } catch (error) {
+//             console.log('fetchCampuses went wrong', error)
+//         }  
+//     }
+// }
 
 //DELETE a student
 export const thunkDeleteStudent = (id) => {

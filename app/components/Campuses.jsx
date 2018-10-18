@@ -13,7 +13,8 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
      }
 
      render() {      
-             const { campuses } = this.props //campuses here is a campusesList 
+             const { campuses, history } = this.props //campuses here is a campusesList 
+             const navigateToNewCampus = () => history.push(`/campuses/new-campus`);
              console.log("PROPS FROM COMPONENT DID MOUNT RENDER IN = ", this.props)
              return ( 
                 <div className = "home">
@@ -36,9 +37,9 @@ import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
                             }
                         </ul>
                    </div>
-                {/*     <div className = "button-container">
+                    <div className = "button-container">
                       <button className = "button-main" onClick = {navigateToNewCampus}> Add New Campus </button>
-                    </div> */}
+                    </div>
                 </div>
              )
     }

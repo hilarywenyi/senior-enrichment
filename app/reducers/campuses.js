@@ -5,7 +5,7 @@ import axios from 'axios';
 //Action types
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
-const ADD_CAMPUS = 'ADD_CAMPUS';
+const EDIT_CAMPUS = 'EDIT_CAMPUS';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
 
 //Action creators
@@ -54,18 +54,34 @@ export const thunkFetchCampuses = () => {
     }
 }
 
-//GET a single campus:(dispatch,getState) for postBook for update
-export const thunkFetchCampus = (id) => {
+//POST a campus (adding)
+export function thunkPostCampus (history, campusData) {
+
     return async (dispatch) => {
-        try {
-            const res = await axios.get(`/api/campuses/${id}`);
-            const campus = res.data;
-            const action = getCampus(campus);
-            console.log('fetchCampuses thunk one campus = ', campus)
-            dispatch(action);
-        } catch (error) {
-            console.log('fetchCampuses went wrong', error)
-        }  
+      try {
+          const res = await axios.get('/api/campuses', campusData)
+          const newCampus = res.data;
+          const action = getCampus(newCampus);
+          dispatch(action);
+          history.push(`/campuses/${newCampus.id}`);
+      } catch (error) {
+          console.log(error)
+      }
+    }
+}
+
+//PUT a campus (editting)
+export function thunkPutCampus (history, campusData, campusId) {
+
+    return function thunk (dispatch) {
+
+      return axios.put(`/api/campuses/${campusId}`, campusData)
+        .then(res => res.data)
+        .then(updatedCampus => {
+          const action = editCampus(updatedCampus);
+          dispatch(action);
+          history.push(`/campuses/${updatedCampus.id}`);
+        });
     }
 }
 
@@ -92,12 +108,16 @@ export default function campusReducer (state = initialState, action){
       
       case GET_CAMPUS: 
         console.log("action.campus in reducer = ", action.campus);
-        return action.campus;        
+        return [...state, action.campus];        
       
-      case ADD_CAMPUS:
-        return [...state, action.newCampus];   
-           
-      
+      case EDIT_CAMPUS: {
+            const campusToEdit = state.find(campus => campus.id === action.campus.id);
+            const indexOfcampusToEdit = state.indexOf(campusToEdit);
+            let newState = [...state];
+            newState.splice(indexOfcampusToEdit, 1, action.campus);
+            return newState;
+      }
+            
       case DELETE_CAMPUS:
         return state.filter(element => element.id !== action.id); 
 

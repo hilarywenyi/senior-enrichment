@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux" 
 
 //import thunk reducer
-import { thunkFetchCampus } from  "../reducers/campuses"
+import { thunkFetchCampuses } from  "../reducers/campuses"
+import Students from './Students'
 
 class SingleCampus extends React.Component {
     
@@ -14,12 +15,16 @@ class SingleCampus extends React.Component {
     }
 
     render() {
-        const  campus  = this.props.campus
+        const  { campus,history } = this.props
+        //BUGGGGGGGG HERE: WHERE IS MY CAMPUS
         //const  { campus }  = this.props;
+        const navigateToNewStudent = () => history.push(`/campuses/${campus.id}/new-student`);
+        //const navigateToEditCampus = () => history.push(`/campuses/${campus.id}/edit-campus`);
+        
         console.log("CAMPUS NEED TO RENDER HERE", this.props)//ERROR!!!!!!!!      
          return campus
            ? (
-              <div >
+            <div >
             <div className = "page-header">
                <h1> Campus: {this.props.campuses.name} </h1>
             </div>
@@ -37,18 +42,16 @@ class SingleCampus extends React.Component {
                 </div> 
             </div>
 
-            <div className = "row">
-                <div className="col-md-12">
-                        <div className="page-header">
-                            <h2>All Students in { campus.name } Campus
-                                <Link to="/students/newStudent">
-                                    <button type="button" className="btn btn-primary"> Add Student</button>
-                                </Link>
-                            </h2>
-                        </div>
-                </div>            
-            </div>
-         </div>
+            <Students campus={campus} history={history} />
+                <div className="buttons-container">
+                    <button className="btn-add-new-student" onClick={navigateToNewStudent}>Add New Student</button>
+                    
+                    {/* <div>
+                    <button className="btn-main" onClick={navigateToEditCampus}>Edit Campus</button>
+                    <button className="btn-main" onClick={() => confirmDelete(campus)}>Delete Campus</button>
+                    </div> */}
+                </div>
+            </div> 
          ) 
          : <h1> Loading... </h1>   
     }
@@ -66,7 +69,7 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = dispatch => {
     console.log("feching state from mapDispatchToProps", dispatch)
     return ({
-        fetchSingleCampus: (campusId) => dispatch(thunkFetchCampus(campusId)),
+        fetchSingleCampus: (campusId) => dispatch(thunkFetchCampuses(campusId)),
     })
 };
 
