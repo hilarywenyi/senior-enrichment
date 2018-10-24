@@ -37,16 +37,8 @@ const Student = db.define('student', {
             min: 0.0, 
             max: 4.0
         }
-    },
-    // name:{
-    //      type: Sequelize.VIRTUAL,
-    //      get() {
-    //          return `${this.firstName} ${this.lastName}`
-    //      }
-    // },
-    // defaultScope:{
-    //     include: [Campus]
-    // }
+    }
+    
   });
 
 module.exports = Student;

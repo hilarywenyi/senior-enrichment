@@ -9,7 +9,7 @@ const EditCampus = (props) => {
       campusToEdit={props.campusToEdit}
       label={`Edit Campus`}
       buttonText={'Submit Changes'}
-      prevState={props.prevState}
+      history={props.history}
     />
   )
 }

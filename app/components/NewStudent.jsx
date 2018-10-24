@@ -7,7 +7,7 @@ const NewStudent = (props) => {
   return (
     <StudentForm
       label={'New Student Information:'}
-      postOrPut={thunkPutStudent}
+      postOrPut={thunkPostStudent}
       buttonText={'Submit New Student'}
       history={props.history}
       campusId={props.match.params.campusId}

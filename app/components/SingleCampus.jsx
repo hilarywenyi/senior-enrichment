@@ -1,79 +1,46 @@
 import React from "react";
-import { Link } from "react-router-dom" 
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux" 
-
-//import thunk reducer
-import { thunkFetchCampuses } from  "../reducers/campuses"
 import Students from './Students'
 
-class SingleCampus extends React.Component {
-    
-    componentDidMount() {
-        const campusId = this.props.match.params.campusId;
-        console.log("this is campusId", campusId)
-        this.props.fetchSingleCampus(campusId);
-    }
 
-    render() {
-        const  { campus,prevState } = this.props
-        //BUGGGGGGGG HERE: WHERE IS MY CAMPUS
-        //const  { campus }  = this.props;
-        const navigateToNewStudent = () => prevState.push(`/campuses/${campus.id}/new-student`);
-        //const navigateToEditCampus = () => prevState.push(`/campuses/${campus.id}/edit-campus`);
-        
-        console.log("CAMPUS NEED TO RENDER HERE", this.props)//ERROR!!!!!!!!      
+const SingleCampus = (props) => {
+
+    const  { campus, students } = props
+    console.log('student need to be filtered', students)
+    console.log('campus', campus)
+
          return campus
            ? (
             <div >
             <div className = "page-header">
-               <h1> Campus: {this.props.campuses.name} </h1>
+               <h1> Campus: {campus.name} </h1>
             </div>
 
             <div className = "row">
                 <div className = "campuseImage-container" >
                    <img src = {campus.imageUrl} />
+                   <h4> {campus.address}</h4>
+                   <h4> {campus.description}</h4>
+                   <Students students = {students} />
+                   {/* <h6><Link to={`/campuses/${campus.id}`}>{campus.students.firstName}</Link></h6> */}
+                   {/* {students.map(students => <Students students = {students} key = {students.id}/>)} */}
+                   {/* {students.filter(students => students.campusId === campusId)} */}
                 </div>
-
-                <div className = "campus-details" >
-                   <ul>
-                       <li> {campus.address} Fact #1</li>
-                       <li> {campus.description} Fact #2</li>
-                   </ul>
-                </div> 
-            </div>
-
-            <Students campus={campus} prevState={prevState} />
-                <div className="buttons-container">
-                    <button className="btn-add-new-student" onClick={navigateToNewStudent}>Add New Student</button>
-                    
-                    {/* <div>
-                    <button className="btn-main" onClick={navigateToEditCampus}>Edit Campus</button>
-                    <button className="btn-main" onClick={() => confirmDelete(campus)}>Delete Campus</button>
-                    </div> */}
-                </div>
+            </div>               
             </div> 
          ) 
          : <h1> Loading... </h1>   
-    }
-
 }
 
-const mapStateToProps = function(state) {
-    console.log("state from mapStateToProps", state)
+const mapStateToProps = function(state,ownProps) {
+    const campusId = Number(ownProps.match.params.campusId);    
+    
     return ({
-        campus: state.campus,
-        //students: state.students
+        campus: state.campuses.find(campus => campus.id === campusId),
+        students: state.students.filter(student => student.campusId === campusId),
+        campusId
     })
 }
 
-const mapDispatchToProps = dispatch => {
-    console.log("feching state from mapDispatchToProps", dispatch)
-    return ({
-        fetchSingleCampus: (campusId) => dispatch(thunkFetchCampuses(campusId)),
-    })
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SingleCampus);
+export default connect(mapStateToProps)(SingleCampus);

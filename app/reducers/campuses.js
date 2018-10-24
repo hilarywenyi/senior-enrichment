@@ -86,13 +86,13 @@ export function thunkPutCampus (history, campusData, campusId) {
 }
 
 //DELETE a campus:
-export const thunkDeleteCampus = (prevState, campus) => {
+export const thunkDeleteCampus = (history, campus) => {
     return async dispatch => {
         try {
           await axios.delete(`/api/campuses/${campus.id}`, {id: campus.id});
           const action = deleteCampus(campus);
           dispatch(action);
-          prevState.push(`/campuses`)
+          history.push(`/campuses`)
         } catch (error) {
           console.log('removeCampus went wrong', error)
           //toastr.error('Oops!Sorry our bad');

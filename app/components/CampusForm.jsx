@@ -68,7 +68,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 
-  const { campusToEdit, prevState } = ownProps;
+  const { campusToEdit, history } = ownProps;
 
   return {
     setInput: () => {
@@ -91,10 +91,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const name = event.target.name.value;
       const description = event.target.description.value;
       if (campusToEdit) { // if campus passed as props, then must be editing existing campus
-        const editCampus = thunkPutCampus(prevState, { name, description }, campusToEdit.id);
+        const editCampus = thunkPutCampus(history, { name, description }, campusToEdit.id);
         dispatch(editCampus);
       } else { // if no campus passed as props, then must be creating new campus
-        const createCampus = thunkPostCampus(prevState, { name, description });
+        const createCampus = thunkPostCampus(history, { name, description });
         dispatch(createCampus);
       }
       dispatch(writeCampusName(''));

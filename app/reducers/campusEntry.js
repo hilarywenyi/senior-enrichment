@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 // Action types
 const WRITE_CAMPUS_NAME = 'WRITE_CAMPUS_NAME';
 const WRITE_CAMPUS_DESCRIPTION = 'WRITE_CAMPUS_DESCRIPTION';

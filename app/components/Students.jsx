@@ -2,20 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom" 
 import { connect } from "react-redux" 
 
-import { thunkFetchStudents, thunkDeleteStudent } from '../reducers/students'
 
-class Students extends React.Component {
-     componentDidMount() {
-         this.props.fetchInitialStudent()
-     }
-
-     render() {
-            const { students } = this.props
-            console.log("this props means students", this.props)
+const Students = (props) => {   
+         const { students } = props
+        
          return ( 
              <div className = "students-container">
-                 <h2>List of All Students</h2>
-                
+                 <h2>List of All Students</h2>                
                  <hr />
 
                  <table className="table">
@@ -39,25 +32,81 @@ class Students extends React.Component {
                  
              </div>
          )
-     }             
+                 
 }
 
 
 const mapStateToProps = function(state) {
     return {
-        campuses: state.campuses,
-        students: state.students
+        students: state.students       
     };
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchInitialStudent: () => dispatch(thunkFetchStudents()),
-        deleteStudent: id => dispatch(thunkDeleteStudent(id))   
-    }
-}
+export default connect(mapStateToProps)(Students);
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-    )(Students);
+
+
+
+// import React from "react";
+// import { Link } from "react-router-dom" 
+// import { connect } from "react-redux" 
+
+// import { thunkFetchStudents, thunkDeleteStudent } from '../reducers/students'
+
+// class Students extends React.Component {
+//      componentDidMount() {
+//          this.props.fetchInitialStudent()
+//      }
+
+//      render() {
+//             const { students } = this.props
+//             console.log("this props means students", this.props)
+//          return ( 
+//              <div className = "students-container">
+//                  <h2>List of All Students</h2>
+                
+//                  <hr />
+
+//                  <table className="table">
+//                   <tbody>
+//                     <tr>
+//                         <th>ID</th>
+//                         <th>Name</th>
+//                     </tr>
+//                     {
+//                       students.map(student => {
+//                         return (
+//                             <tr key = {student.id}>
+//                                  <td><Link to ={`student/${student.id}`}>{student.id}</Link></td>
+//                                  <td><Link to ={`student/${student.id}`}>{student.firstName} {student.lastName}</Link></td>
+//                             </tr>
+//                         )
+//                      }) 
+//                     }  
+//                   </tbody>
+//                   </table>
+                 
+//              </div>
+//          )
+//      }             
+// }
+
+
+// const mapStateToProps = function(state) {
+//     return {
+//         campuses: state.campuses,
+//         students: state.students
+//     };
+// }
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         fetchInitialStudent: () => dispatch(thunkFetchStudents()),
+//         deleteStudent: id => dispatch(thunkDeleteStudent(id))   
+//     }
+// }
+
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+//     )(Students);

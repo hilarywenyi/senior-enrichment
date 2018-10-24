@@ -14,20 +14,16 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 });
-//[Student]
-//[{model: Student, include: [{all: true}]}]
 
 //GET /api/campuses/:campusId 
 router.get('/:campusId', async (req, res, next) => {
     try {
       const campus = await Campus.findById(req.params.campusId, {include: [Student]});
-      //res.json(campus)
       res.send(campus)
     } catch (error) {
        next(error)
     }
 });
-
 
 //POST(adding) /api/campuses
 router.post('/campuses', async(req, res, next) => {
@@ -73,7 +69,7 @@ router.delete('/:campusId', async (req, res, next)=> {
 //PUT(updating) /api/campuses/:campusId
 router.put('/:campusId', async (req, res, next) => {
   try {
-    const campus = await Campus.findById(req.params.studentId);
+    const campus = await Campus.findById(req.params.campusId);
     res.json(campus.update(req.body));
   } catch (error) {
     next(error)

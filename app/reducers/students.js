@@ -51,7 +51,7 @@ export const thunkFetchStudents = () => {
 }
 
 //Post a studnet
-export function thunkPostStudent (prevState, studentData) {
+export function thunkPostStudent (history, studentData) {
     const { campusId } = studentData
     return async (dispatch) => {
       try {
@@ -59,7 +59,7 @@ export function thunkPostStudent (prevState, studentData) {
         const newStudent = res.data;
         const action = getStudent(newStudent);
         dispatch(action);
-        prevState.push(`/campuses/${campusId}`); 
+        history.push(`/campuses/${campusId}`); 
       } catch (error) {
           console.log(error)
       }
@@ -67,7 +67,7 @@ export function thunkPostStudent (prevState, studentData) {
 }
 
 
-export function thunkPutStudent (prevState, studentData, studentId) {
+export function thunkPutStudent (history, studentData, studentId) {
 
     return async (dispatch) => {
     try{
@@ -75,7 +75,7 @@ export function thunkPutStudent (prevState, studentData, studentId) {
         const updatedStudent = res.data;
         const action = editStudent(updatedStudent);
         dispatch(action);
-        prevState.push(`/students/${updatedStudent.id}`);
+        history.push(`/students/${updatedStudent.id}`);
        } catch (error) {
         console.log(error)
        }   

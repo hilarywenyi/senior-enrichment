@@ -1,6 +1,5 @@
 const router = require('express').Router();
-//const { Student } = require('../db/index');
-const { Student } = require('../db');
+const { Student, Campus } = require('../db');
 
 module.exports = router;
 
@@ -14,12 +13,17 @@ router.get('/', async (req, res, next)=> {
   }
 });
 
-//GET /api/students/:studentId && notice: a single student include student's Campus
+//GET /api/students/:studentId
 router.get('/:studentId', async (req, res, next) => {
     try {
-      const student = await Student.findById(req.params.studentId, {
-        include: [ Campus ]
-      });
+      //const student = await Student.findById(req.params.id, {include: [Campus]})
+
+      const student = await Student.findOne({
+        where: {id: req.params.studentId}, include:[Campus]
+      })
+      // const student = await Student.findOne({where: {id: req.params.studentId},  
+      //   include: [ {model: Campus, include:[{all : true}]  }]}
+      // );
       res.send(student);
     } catch (error) {
        next(error)
@@ -47,12 +51,20 @@ router.delete('/:studentId', async (req, res, next)=> {
 })
 
 //PUT(updating) /api/students/:studentId
-router.put('/:studnetId', async (req, res, next) => {
-  try {
-    const student = await Student.findById(req.params.studentId);
-    res.json(student.update(req.body));
-  } catch (error) {
-    next(error)
-  }
-})
-
+// router.put('/:studnetId', async (req, res, next) => {
+//   try {
+//     const student = await Student.findById(req.params.studentId);
+//     res.json(student.update(req.body));   
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+router.put('/:studentId', (req,res,next) =>{
+  const id = req.params.studentId;
+  return Student.update(req.body, {where: {id}})
+  .then(()=>{
+    return Student.findById(id)
+    .then(student => res.json(student))
+  })
+  .catch(next)
+});
