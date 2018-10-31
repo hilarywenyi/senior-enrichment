@@ -13,7 +13,7 @@ const Campus = db.define('campus', {
     imageUrl: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: null
+        defaultValue: "http://images.shoutwiki.com/harrypotter/2/20/Hogwarts.png"
     },
     address: {
         type: Sequelize.STRING,

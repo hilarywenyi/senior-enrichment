@@ -40,6 +40,14 @@ router.post('/students/new-student', async (req, res, next) => {
   }
 });
 
+router.post('/students', (req, res, next) => {
+  Student.create(req.body)
+  .then(newStudent => Student.findById(newStudent.id))
+  .then(foundStudent =>{
+    res.json(foundStudent)
+  })
+}
+
 //DELETE
 router.delete('/:studentId', async (req, res, next)=> {
   try {
