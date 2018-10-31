@@ -55,11 +55,10 @@ export const thunkFetchCampuses = () => {
 }
 
 //POST a campus (adding)
-export function thunkPostCampus (history, campusData) {
-
+export function thunkPostCampus (campus, history) {
     return async (dispatch) => {
       try {
-          const res = await axios.post('/api/campuses', campusData)
+          const res = await axios.post('/api/campuses', campus)
           const newCampus = res.data;
           const action = getCampus(newCampus);
           dispatch(action);
@@ -71,16 +70,15 @@ export function thunkPostCampus (history, campusData) {
 }
 
 //PUT a campus (editting)
-export function thunkPutCampus (history, campusData, campusId) {
+export function thunkPutCampus (campus, history) {
 
     return function thunk (dispatch) {
 
-      return axios.put(`/api/campuses/${campusId}`, campusData)
+      return axios.put(`/api/campuses/${campus.id}`, {name: campus.name, image:campus.image})
         .then(res => res.data)
-        .then(updatedCampus => {
-          const action = editCampus(updatedCampus);
-          dispatch(action);
-          history.push(`/campuses/${updatedCampus.id}`);
+        .then(editedCampus => {
+          dispatch(editCampus(editedCampus));
+          history.push(`/campuses/${editedCampus.id}`);
         });
     }
 }
@@ -112,11 +110,8 @@ export default function campusReducer (state = initialState, action){
         return [...state, action.campus];        
       
       case EDIT_CAMPUS: {
-            const campusToEdit = state.find(campus => campus.id === action.campus.id);
-            const indexOfCampusToEdit = state.indexOf(campusToEdit);
-            let newState = [...state];
-            newState.splice(indexOfCampusToEdit, 1, action.campus);
-            return newState;
+        const editedCampuses = state.campuses.filter(campus => campus.id!==Number(action.campus.id));
+        return Object.assign({},state, {campuses: [...editedCampuses, action.campus]});
       }
             
       case DELETE_CAMPUS: {

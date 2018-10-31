@@ -1,39 +1,40 @@
-import React, {Component} from "react";
+import React from "react";
 import { Link } from "react-router-dom" 
 import { connect } from "react-redux" 
 
 
-//import from reducer 
-//import { thunkFetchCampuses, thunkDeleteCampus } from '../reducers/campuses'
 
 function Campuses(props){
    
-             const { campuses } = props
-             
-             console.log("PROPS FROM COMPONENT DID MOUNT RENDER IN = ", props)
+             const { campuses, history } = props
+             const createNewCampus = () => history.push(`/new-campus`)
              return ( 
                 <div className = "home">
                     <div className = "campuses-container">
                     <h2>All Campuses</h2>
                         <ul>                          
                             {
-                                (campuses && campuses.length) ? campuses.map(campus => (
+                                campuses.map(campus => (
                                 <li key={campus.id} >
                                     <a href = "#">
                                         <img src={campus.imageUrl} alt = "image" /> 
                                     </a> 
                                 <Link to ={`/campuses/${campus.id}`}>{campus.name}</Link> 
                                 </li>          
-                                )) : 'no Campus'
+                                )) 
                             }
                         </ul>
                     </div>
-                    {/* <div className = "button-container">
-                      <button className = "button-main" onClick = {navigateToNewCampus}> Add New Campus </button>
-                    </div> */}
+                    {/* <Link className = "btn-btn-default link-button" to = {'/new-campus'}>Add New Campus</Link> */}
+                     <div className = "button-container">
+                       <button className = "button-main" onClick = {createNewCampus}> Add New Campus </button>
+                     </div>
+                   
                 </div>
              )
  }
+ //(campuses && campuses.length) ? 
+ //)) : 'no Campus'
 
 const mapStateToProps = function(state) {
     console.log("MAP STATE TO PROPS" , state.campuses)
